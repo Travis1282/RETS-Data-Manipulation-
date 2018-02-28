@@ -1,0 +1,23 @@
+source 'https://rubygems.org/'
+gemspec
+
+gem 'rubysl-open-uri', '~> 2.0'
+gem 'open_uri_redirections', '~> 0.2.1'
+# gem 'rest-open-uri', '~> 1.0'
+gem 'json' 
+
+
+group :development do
+  gem 'hoe'
+  gem 'hoe-gemspec'
+  gem 'hoe-git'
+end
+
+group :travis do
+  gem 'hoe-travis'
+end
+
+group :testing do
+  gem 'minitest'
+  gem 'mocha'
+end

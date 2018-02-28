@@ -1,0 +1,9 @@
+.DS_Store
+pkg/
+*.swp
+nbproject/*
+nbproject/private/
+/.rvmrc
+/.ruby-version
+/.ruby-gemset
+Gemfile.lock

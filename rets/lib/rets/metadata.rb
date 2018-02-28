@@ -1,0 +1,18 @@
+require 'rets/metadata/caching'
+require 'rets/metadata/null_cache'
+require 'rets/metadata/file_cache'
+require 'rets/metadata/json_serializer'
+require 'rets/metadata/yaml_serializer'
+require 'rets/metadata/marshal_serializer'
+
+require 'rets/metadata/containers'
+
+require 'rets/metadata/root'
+require 'rets/metadata/resource'
+require 'rets/metadata/lookup_type'
+require 'rets/metadata/table_factory'
+require 'rets/metadata/table'
+require 'rets/metadata/lookup_table'
+require 'rets/metadata/multi_lookup_table'
+require 'rets/metadata/rets_class'
+require 'rets/metadata/rets_object'
