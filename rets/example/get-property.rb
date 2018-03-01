@@ -28,7 +28,8 @@ end
 #   # Do stuff with date
 # end
 
-pp (Date.new(2018-02-20))
+pp t = (Date.new(2018-02-20))
+pp t.strftime("%Y-%d-%m")
 
 property = client.find (:all), {
   search_type: 'Property',
