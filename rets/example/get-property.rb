@@ -5,26 +5,6 @@ require 'net/http'
 require 'open_uri_redirections'
 
 
-
-
-request_uri = 'https://geocoding.geo.census.gov/geocoder/geographies/address?'
-request_query = 'Street=4600+Silver+Hill+Rd&city=Suitland&state=MD&benchmark=Public_AR_Census2010&vintage=Census2010_Census2010&layers=14&format=json'
-url = "#{request_uri}#{request_query}"
-buffer = JSON.parse(open(url).read)
-
-p block = buffer["result"]["addressMatches"][0]["geographies"]["Census Blocks"][0]["BLOCK"]
-p tract = buffer["result"]["addressMatches"][0]["geographies"]["Census Blocks"][0]["TRACT"]
-p lat = buffer["result"]["addressMatches"][0]["coordinates"]["x"]
-p long = buffer["result"]["addressMatches"][0]["coordinates"]["y"]
-
-
-
-# lattitude = y
-# longitude = x
-
-
-# https://geocoding.geo.census.gov/geocoder/geographies/address?street=1759+N+Kedzie+Ave&zip=60647&benchmark=Public_AR_Current&vintage=Census2010_Census2010&layer%20s=14&format=json
-
 # Pass the :login_url, :username, :password and :version of RETS
 
 
@@ -44,61 +24,49 @@ rescue => e
   exit!
 end
 
-# property = client.find (:all), {
-#   search_type: 'Property',
-#   class: 'DE',
-#   query: '(CIT=CHICAGO), (ST=CLSD), (CLOSEDDATE=2018-02-20)',
-#   limit: 8000
-# }
+# (Date.new(2012, 01, 01)..Date.new(2012, 01, 30)).each do |date|
+#   # Do stuff with date
+# end
+
+pp (Date.new(2018-02-20))
+
+property = client.find (:all), {
+  search_type: 'Property',
+  class: 'DE',
+  query: '(CIT=CHICAGO), (ST=CLSD), (CLOSEDDATE=2018-02-20)',
+  limit: 1
+}
 
 
 property.each do |child|
 
-  sqft = child['ASF'].to_f #turnary 
+  
+    sqft = child['ASF'].to_f
 
-  puts(child['HSN']<<' '<< child['CP'] <<' '<< child["STR"] <<' '<< child["STREETSUFFIX"] <<', Chicago, IL, '<< child['ZP'])
-  puts(child['PIN'])
-  puts(child['CLOSEDDATE'])
-  salesPrice = child['SP'].to_f
-  puts(salesPrice/sqft)
+  unless sqft == 0 
 
+    salesPrice = child['SP'].to_f
+    puts closedate = 'Close Date: '<< (child['CLOSEDDATE'])
+    puts ppsqft = 'Price Per Square Foot: '<< ((salesPrice/sqft).floor).to_s
+
+
+    request_query =(child['HSN']<<' '<< child['CP'] <<' '<< child["STR"] <<' '<< child["STREETSUFFIX"] <<'city=Chicago&state=IL&zip='<< child["ZP"] << '&apikey=e3b6ccab4a5249abb5c37b6bbc6a3a8c&format=json&census=false&notStore=false&version=4.01')
+
+
+   
+    request_uri = 'https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress='
+    url = "#{request_uri}#{request_query}"
+    buffer = JSON.parse(open(url).read)
+   
+    p lat = 'lat: '<< buffer["OutputGeocodes"][0]["OutputGeocode"]["Latitude"]
+    p long = 'long: '<< buffer["OutputGeocodes"][0]["OutputGeocode"]["Longitude"]
+
+  end
 end
 
-# 4f493480242111fa8c68a81679f0fe87fa6373a2
-
-# pp allvalues
-# pp property.inspect
-
-# puts allvalues['HSN'] #housenumber
-# puts allvalues['CP'] #street direction
-# puts allvalues["STR"] #street 
-# puts allvalues["STREETSUFFIX"] #street suffix
-# puts allvalues['CIT'] #city
-# puts allvalues['ZP'] #zipcode
-# puts allvalues['LAT'] #lat 
-# puts allvalues['LNG'] #long
-# puts allvalues['PIN'] #parcel id
-# puts allvalues['CLOSEDDATE']#closed Date
-# puts allvalues["ASF"]#listed sqft
-# puts property.size
-# pp allvalues
+  client.logout
 
 
-#save to sql
 
 
-client.logout
-# photos = client.objects '*', {
-#   resource: 'Property',
-#   object_type: 'Photo',
-#   resource_id: '06851616'
-# }
 
-# photos.each_with_index do |data, index|
-#   File.open("property-#{index.to_s}.jpg", 'w') do |file|
-#     file.write data.body
-#   end
-# end
-
-# puts photos.length.to_s + ' photos saved.'
-# client.logout
