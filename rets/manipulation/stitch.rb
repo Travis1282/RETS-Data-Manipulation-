@@ -4,9 +4,17 @@ require 'net/http'
 # require 'rubysl-open-uri'
 require 'open_uri_redirections'
 
+module Stich
+    def Stich.getProperty()
 
 # Pass the :login_url, :username, :password and :version of RETS
 
+client = Rets::Client.new({
+  login_url: 'http://connectmls-rets.mredllc.com/rets/server/login',
+  username: 'RETS_O_12604_2',
+  password: '2nwj2xbkgd',
+  version: 'RETS/1.5'
+})
 
 # client = Rets::Client.new({
 #   login_url: 'xxx',
@@ -45,7 +53,7 @@ totalpropsthisday = 0;
       class: 'DE',
       # query: '(CIT=CHICAGO), (ST=CLSD), (CLOSEDDATE=2017-07-14)',
       query: queryIter#,
-      # limit: 50
+    #  limit: 50
     }
 
 
@@ -58,8 +66,8 @@ totalpropsthisday = 0;
     unless sqft == 0 
 
       salesPrice = child['SP'].to_f
-      puts closedate = 'Close Date: '<< (child['CLOSEDDATE'])
-      puts ppsqft = 'Price Per Square Foot: '<< ((salesPrice/sqft).floor).to_s
+      dateSold = (child['CLOSEDDATE'])
+      ppsqft = ((salesPrice/sqft).floor).to_s
 
       # form query format for geocoder api
       request_query =(child['HSN']<<' '<< child['CP'] <<' '<< child["STR"] <<' '<< child["STREETSUFFIX"] <<'city=Chicago&state=IL&zip='<< child["ZP"] << '&apikey=e3b6ccab4a5249abb5c37b6bbc6a3a8c&format=json&census=false&notStore=false&version=4.01')
@@ -70,11 +78,20 @@ totalpropsthisday = 0;
       buffer = JSON.parse(open(url).read)
      
       # the returned coordinates 
-      p lat = 'lat: '<< buffer["OutputGeocodes"][0]["OutputGeocode"]["Latitude"]
-      p long = 'long: '<< buffer["OutputGeocodes"][0]["OutputGeocode"]["Longitude"]
+      lat = buffer["OutputGeocodes"][0]["OutputGeocode"]["Latitude"]
+      long = buffer["OutputGeocodes"][0]["OutputGeocode"]["Longitude"]
 
       totalprops = totalprops + 1
       totalpropsthisday = totalpropsthisday + 1
+
+		#### THis is the db stuff
+		@instance = Property.new
+		@instance.ppsqft = ppsqft
+		@instance.lat = lat # for now
+		@instance.long = long
+		@instance.datesold = dateSold
+		@instance.save
+		# instance.save
 
     end # unless
   end # property.each do
@@ -92,7 +109,8 @@ end # Date
 
   client.logout
 
-
+    end
+end
 
 
 

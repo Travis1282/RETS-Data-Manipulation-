@@ -1,11 +1,16 @@
 source 'https://rubygems.org/'
 gemspec
 
-gem 'rubysl-open-uri', '~> 2.0'
+# gem 'rubysl-open-uri', '~> 2.0'
 gem 'open_uri_redirections', '~> 0.2.1'
-# gem 'rest-open-uri', '~> 1.0'
-gem 'json' 
+gem 'sinatra'
+gem 'json'
+gem 'pg', '0.20'
+gem 'sinatra-activerecord'
 
+# group :development do
+#   gem "capistrano", "~> 3.10", require: false
+# end
 
 group :development do
   gem 'hoe'

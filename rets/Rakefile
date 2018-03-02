@@ -1,6 +1,16 @@
 require 'rubygems'
 require 'hoe'
 require 'rake/testtask'
+# require 'standalone_migrations'
+# StandaloneMigrations::Tasks.load_tasks
+require_relative 'app'
+
+# task :default => :migrate
+
+# desc "Run migrations"
+# task :migrate do
+#   ActiveRecord::Migrator.migrate('db/migrate', ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
+# end
 
 Hoe.plugin :git, :doofus
 Hoe.plugin :travis
@@ -26,3 +36,4 @@ end
 Rake::TestTask.new do |t|
   t.pattern = "test/test_*.rb"
 end
+
