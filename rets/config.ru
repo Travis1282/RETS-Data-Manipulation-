@@ -20,3 +20,4 @@ map ('/') {
 map ('/properties') { 
 	run PropertyController
 }
+ 
