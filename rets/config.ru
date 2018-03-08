@@ -8,6 +8,7 @@ require './models/PropertyModel'
 # controllers
 require './controllers/ApplicationController'
 require './controllers/PropertyController'
+require './controllers/AllDatesController'
 
 
 
@@ -19,5 +20,9 @@ map ('/') {
 
 map ('/properties') { 
 	run PropertyController
+}
+ 
+map ('/dates') { 
+	run AllDatesController
 }
  

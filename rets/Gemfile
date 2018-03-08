@@ -4,6 +4,7 @@ gemspec
 # gem 'rubysl-open-uri', '~> 2.0'
 gem 'open_uri_redirections', '~> 0.2.1'
 gem 'sinatra'
+gem 'sinatra-cross_origin', '~> 0.3.1'
 gem 'json'
 gem 'pg', '0.20'
 gem 'sinatra-activerecord'

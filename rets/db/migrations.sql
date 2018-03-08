@@ -2,6 +2,9 @@ DROP DATABASE IF EXISTS heatmap;
 
 CREATE DATABASE heatmap;
 \c heatmap
+
+DROP TABLE IF EXISTS properties;
+
 CREATE TABLE properties(
   	id SERIAL PRIMARY KEY,
 	ppsqft VARCHAR(10),

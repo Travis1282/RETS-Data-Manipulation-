@@ -9,12 +9,7 @@ module Stich
 
 # Pass the :login_url, :username, :password and :version of RETS
 
-client = Rets::Client.new({
-  login_url: 'http://connectmls-rets.mredllc.com/rets/server/login',
-  username: 'RETS_O_12604_2',
-  password: '2nwj2xbkgd',
-  version: 'RETS/1.5'
-})
+
 
 # client = Rets::Client.new({
 #   login_url: 'xxx',
@@ -35,7 +30,7 @@ num = 0;
 totalprops = 0;
 totalpropsthisday = 0;
 # loop the dates to find all closings on each date
-(Date.new(2016,04,21)).upto(Date.new(2016, 12, 31)).each do |date|
+(Date.new(2016,05,17)).upto(Date.new(2018, 03, 01)).each do |date|
   date_to_use = date.strftime("%Y-%m-%d")
 
   #format date in loop to work in the RETS query 
@@ -70,16 +65,16 @@ totalpropsthisday = 0;
 	      ppsqft = ((salesPrice/sqft).floor).to_s
 
 	      # form query format for geocoder api
-	      request_query =(child['HSN']<<' '<< child['CP'] <<' '<< child["STR"] <<' '<< child["STREETSUFFIX"] <<'city=Chicago&state=IL&zip='<< child["ZP"] << '&apikey=e3b6ccab4a5249abb5c37b6bbc6a3a8c&format=json&census=false&notStore=false&version=4.01')
-
+	      request_query =(child['HSN']<<'+'<< child['CP'] <<'+'<< child["STR"] <<'+'<< child["STREETSUFFIX"] <<',+IL' << '&key=AIzaSyAqg6P3cv9UsSWp1X1omEiHWZIkYRsjqKE')
+	      							# 1600+Amphitheatre+Parkway,+Mountain+View,+CA&key=AIzaSyDPViyB3H7lAH7J7k9PP4Y51uqote8QQ5U &zip='<< child["ZP"]
 	      # this is the api call 
-	      request_uri = 'https://geoservices.tamu.edu/Services/Geocode/WebService/GeocoderWebServiceHttpNonParsed_V04_01.aspx?streetAddress='
-	      url = "#{request_uri}#{request_query}"
-	      buffer = JSON.parse(open(url).read)
-	     
+	      request_uri = 'https://maps.googleapis.com/maps/api/geocode/json?address='
+	       url = "#{request_uri}#{request_query}"
+	       buffer = JSON.parse(open(url).read)
+
 	      # the returned coordinates 
-	      lat = buffer["OutputGeocodes"][0]["OutputGeocode"]["Latitude"]
-	      long = buffer["OutputGeocodes"][0]["OutputGeocode"]["Longitude"]
+	     p lat = buffer['results'][0]['geometry']['location']['lat'] 
+	     p long = buffer['results'][0]['geometry']['location']['lng']
 
 	      totalprops = totalprops + 1
 	      totalpropsthisday = totalpropsthisday + 1
